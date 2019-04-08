@@ -38,6 +38,8 @@
 			this.keyGen = new System.Windows.Forms.Button();
 			this.loadKey = new System.Windows.Forms.Button();
 			this.newKeyOutput = new System.Windows.Forms.TextBox();
+			this.fileEncrypt = new System.Windows.Forms.Button();
+			this.fileDecrypt = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// input
@@ -133,12 +135,34 @@
 			this.newKeyOutput.Size = new System.Drawing.Size(165, 175);
 			this.newKeyOutput.TabIndex = 11;
 			// 
+			// fileEncrypt
+			// 
+			this.fileEncrypt.Location = new System.Drawing.Point(366, 329);
+			this.fileEncrypt.Name = "fileEncrypt";
+			this.fileEncrypt.Size = new System.Drawing.Size(86, 30);
+			this.fileEncrypt.TabIndex = 12;
+			this.fileEncrypt.Text = "File Encrypt";
+			this.fileEncrypt.UseVisualStyleBackColor = true;
+			this.fileEncrypt.Click += new System.EventHandler(this.fileEncrypt_Click);
+			// 
+			// fileDecrypt
+			// 
+			this.fileDecrypt.Location = new System.Drawing.Point(366, 395);
+			this.fileDecrypt.Name = "fileDecrypt";
+			this.fileDecrypt.Size = new System.Drawing.Size(86, 30);
+			this.fileDecrypt.TabIndex = 13;
+			this.fileDecrypt.Text = "File DeEncrypt";
+			this.fileDecrypt.UseVisualStyleBackColor = true;
+			this.fileDecrypt.Click += new System.EventHandler(this.fileDecrypt_Click);
+			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.ClientSize = new System.Drawing.Size(554, 450);
+			this.Controls.Add(this.fileDecrypt);
+			this.Controls.Add(this.fileEncrypt);
 			this.Controls.Add(this.newKeyOutput);
 			this.Controls.Add(this.loadKey);
 			this.Controls.Add(this.keyGen);
@@ -166,6 +190,8 @@
 		private System.Windows.Forms.Button keyGen;
 		private System.Windows.Forms.Button loadKey;
 		private System.Windows.Forms.TextBox newKeyOutput;
+		private System.Windows.Forms.Button fileEncrypt;
+		private System.Windows.Forms.Button fileDecrypt;
 	}
 }
 
