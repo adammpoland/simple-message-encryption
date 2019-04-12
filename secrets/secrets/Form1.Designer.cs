@@ -172,6 +172,7 @@
 			this.Controls.Add(this.encrypt);
 			this.Controls.Add(this.textBox2);
 			this.Controls.Add(this.input);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "Form1";
 			this.Text = "SECRETS";
 			this.ResumeLayout(false);

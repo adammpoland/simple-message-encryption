@@ -103,53 +103,105 @@ namespace secrets
 
 		private void fileEncrypt_Click(object sender, EventArgs e)
 		{
-			
+			string selectedFileName = " ";
+			OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-			byte[] bytes = File.ReadAllBytes("encryptme.txt");
-			MessageBox.Show(bytes[4].ToString());
-			MessageBox.Show(bytes[1].ToString());
+			openFileDialog1.InitialDirectory = "c:\\";
+			//openFileDialog1.Filter = "*.key";
+			openFileDialog1.FilterIndex = 0;
+			openFileDialog1.RestoreDirectory = true;
+
+			if (openFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				 selectedFileName = openFileDialog1.FileName;
+				//...
+			}
+
+			byte[] bytes = File.ReadAllBytes(selectedFileName);
+			//MessageBox.Show(bytes[4].ToString());
+			MessageBox.Show(selectedFileName);
 			///////////////////////////////////////////////////////////////random bytes///
 			byte[] random = new Byte[bytes.Length];
 
 			//RNGCryptoServiceProvider is an implementation of a random number generator.
 			RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
 			rng.GetBytes(random); // The array is now filled with cryptographically strong random bytes.
-
+			MessageBox.Show(bytes.Length.ToString());
 			//////////////////////////do the stuff///////////
+
 			for (int i = 0; i < bytes.Length; i++)
-			{
-				//keyGenNew(bytes.Length);
-				//int section = bytes[i];
-				//section = section + (int)key[i];
+			{				
 				bytes[i] = (byte)(bytes[i] ^ random[i]);
-				File.WriteAllBytes("encrypted.txt", bytes);
 			}
+
+			File.WriteAllBytes(selectedFileName + ".lock", bytes);
+
 			byteKey = random;
+			File.WriteAllBytes(selectedFileName +".key", random);
+			MessageBox.Show(selectedFileName + " has been encrypted");
+
 		}
 
 		private void fileDecrypt_Click(object sender, EventArgs e)
 		{
-			byte[] bytes = File.ReadAllBytes("encrypted.txt");
-			MessageBox.Show(bytes.Length.ToString());
+			string selectedKey = " ";
+			string selectedFile = "";
+			OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
+			//openFileDialog1.InitialDirectory = "c:\\";
+			openFileDialog1.Filter = "Key files (*.key)|*.key";
+			openFileDialog1.FilterIndex = 0;
+			openFileDialog1.RestoreDirectory = true;
+
+			if (openFileDialog1.ShowDialog() == DialogResult.OK)
+			{
+				selectedKey = openFileDialog1.FileName;
+				//...
+			}
+			byteKey = File.ReadAllBytes(selectedKey);
+
+
+			OpenFileDialog openFileDialog2 = new OpenFileDialog();
+
+			//openFileDialog1.InitialDirectory = "c:\\";
+			openFileDialog1.Filter = "Locked files (*.lock)|*.lock";
+			openFileDialog1.FilterIndex = 0;
+			openFileDialog1.RestoreDirectory = true;
+
+			if (openFileDialog2.ShowDialog() == DialogResult.OK)
+			{
+				selectedFile = openFileDialog2.FileName;
+				//...
+			}
+
+
+			byte[] bytes = File.ReadAllBytes(selectedFile);
+			MessageBox.Show(bytes.Length.ToString());
+			string file = Path.GetFileNameWithoutExtension(selectedFile);
+			//string path = Path.GetFullPath(selectedFile);
+			string path = GetDirectoryName(selectedFile);
+			string FnP = path + @"\" + file;
+			MessageBox.Show(FnP);
 			for (int i = 0; i < bytes.Length; i++)
 			{
-
 				bytes[i] = (byte)(bytes[i] ^ byteKey[i]);
-				File.WriteAllBytes("dencrypted.txt", bytes);
+			}
+			File.WriteAllBytes(FnP, bytes);
+			MessageBox.Show(FnP + " has been decrypted");
+
+		}
+
+		static string GetDirectoryName(string f)
+		{
+			try
+			{
+				return f.Substring(0, f.LastIndexOf('\\'));
+			}
+			catch
+			{
+				return string.Empty;
 			}
 		}
 
-
-		//private byte[] GetBinaryFile(string filename)
-		//{
-		//	byte[] bytes;
-		//	using (FileStream file = new FileStream(filename, FileMode.Open, FileAccess.Read))
-		//	{
-		//		bytes = new byte[file.Length];
-		//		file.Read(bytes, 0, (int)file.Length);
-		//	}
-		//	return bytes;
-		//}
 	}
 }
